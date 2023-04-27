@@ -11,7 +11,7 @@ df_meta = pd.read_csv("GSE73072_series_matrix.txt",
                      )
 df = pd.read_csv("GSE73072_series_matrix.txt", sep = "\t", skiprows = 82)
 df = df.drop(12023)
-
+df = df.drop(['ID_REF'], axis = 1)
 df = df.T
 
 # the storage of all the times for the experiments found within the meta data
@@ -28,6 +28,7 @@ for i in range(len(times_str)):
     m = re.match(pattern, info)
     times_int[i] = m.group(1)
 
+times_int = pd.DataFrame(times_int, columns = ['Time'], index = df.index)
 # creating a loop that will take the virus names and store them
 virus_name = []
 
@@ -38,7 +39,13 @@ for j in range(len(times_str)):
     m1 = re.match(pattern1, name)
     virus_name.append(m1.group(1))
 
-# virus_name = pd.DataFrame(virus_name, columns = ['Virus'])
+virus_name = pd.DataFrame(virus_name, columns = ['Virus'], index = df.index)
   
 ### 
+# Combine the new columns into the original data frame
 
+# new data frame that combines the virus names and times
+df_info = pd.concat([virus_name,times_int], axis = 1)
+
+# combine both dataframes
+df1 = pd.concat([df_info,df],axis = 1)
