@@ -42,6 +42,7 @@ for j in range(len(times_str)):
 virus_name = pd.DataFrame(virus_name, columns = ['Virus'], index = df.index)
   
 ### 
+
 # Combine the new columns into the original data frame
 
 # new data frame that combines the virus names and times
@@ -49,3 +50,16 @@ df_info = pd.concat([virus_name,times_int], axis = 1)
 
 # combine both dataframes
 df1 = pd.concat([df_info,df],axis = 1)
+
+###
+
+# Masking
+swine_flu = 'H1N1'
+mask_swine = df1.iloc[:,0] == swine_flu
+mask_preinf = df1.iloc[:,1]<=0
+
+pre_inf = df1
+pre_inf = pre_inf[pre_inf.Time <=0]
+
+swine_flu = df1
+swine_flu = swine_flu[swine_flu.Virus == 'H1N1']
