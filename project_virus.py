@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import re
+import matplotlib.pyplot as plt
 
 # line 46 has the title of hours
 df_meta = pd.read_csv("GSE73072_series_matrix.txt",
@@ -78,3 +79,25 @@ pre_inf = pre_inf[pre_inf.Time <=0]
 # creating a data frame containing only the H1N1 subjects
 swine_flu = df1
 swine_flu = swine_flu[swine_flu.Virus == 'H1N1']
+
+###
+
+# focusing on only one subject and one biomarker
+# looking at only the H1N1 subjects we will pick a random subject 
+# and random biomarker
+
+# Looking at H1N1 DEE 4 Subject 16 
+sub_interest = swine_flu[swine_flu.Subject == 'DEE 4 Subject 16'] 
+
+# looking at a random biomarker
+# randbio = np.random.randint(0,12023)
+sub_interest = sub_interest[["Time", 1569]]
+print(sub_interest)
+
+fig, ax = plt.subplots()
+
+ax.scatter(sub_interest.iloc[:,0],sub_interest.iloc[:,1])
+ax.set_xlabel("Time (hrs)")
+ax.set_ylabel("Biomarker Level")
+ax.set_title("Biomarker vs Time")
+ax.axvline(x=0, c ='r', ls='--')
