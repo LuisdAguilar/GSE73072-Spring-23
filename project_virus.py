@@ -29,6 +29,7 @@ for i in range(len(times_str)):
     times_int[i] = m.group(1)
 
 times_int = pd.DataFrame(times_int, columns = ['Time'], index = df.index)
+
 # creating a loop that will take the virus names and store them
 virus_name = []
 
@@ -53,10 +54,7 @@ df1 = pd.concat([df_info,df],axis = 1)
 
 ###
 
-# Masking
-swine_flu = 'H1N1'
-mask_swine = df1.iloc[:,0] == swine_flu
-mask_preinf = df1.iloc[:,1]<=0
+# Masking and creating data frames for the criteria
 
 pre_inf = df1
 pre_inf = pre_inf[pre_inf.Time <=0]
